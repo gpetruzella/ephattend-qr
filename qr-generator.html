@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas QR Code Generator - Bookmarklet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .step {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .bookmarklet {
+            background: #007bff;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .bookmarklet:hover {
+            background: #0056b3;
+            color: white;
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .manual-instructions {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .copy-area {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+            user-select: all;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🎓 Canvas QR Code Generator</h1>
+        <p>Generate QR codes for all your students directly from Canvas People page</p>
+        <p><strong>Completely Local • No Data Collection • Works Offline</strong></p>
+    </div>
+
+    <div class="step">
+        <h3>📖 How It Works</h3>
+        <p>This bookmarklet runs JavaScript directly on your Canvas People page to:</p>
+        <ul>
+            <li>Extract student names and IDs from the current page</li>
+            <li>Generate QR codes for each student</li>
+            <li>Create a downloadable PDF with all QR codes</li>
+            <li>All processing happens locally in your browser</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>🔧 Installation</h3>
+        <p><strong>Drag this button to your bookmarks bar:</strong></p>
+        
+        <a href="javascript:(function(){var s=document.createElement('script');s.src='https://yourusername.github.io/your-repo/canvas-qr-script.js?v='+Date.now();s.onload=function(){if(window.generateCanvasQR){window.generateCanvasQR()}else{alert('Script failed to load. Please try again.');}};document.head.appendChild(s);})();" class="bookmarklet">📋 Generate Canvas QR Codes</a>
+        
+        <div class="warning">
+            <strong>⚠️ Update Required:</strong> Replace <code>yourusername.github.io/your-repo</code> in the button above with your actual GitHub Pages URL before using!
+        </div>
+
+        <div class="manual-instructions">
+            <h4>Manual Setup (if drag doesn't work):</h4>
+            <ol>
+                <li>Copy the code below</li>
+                <li>Create a new bookmark in your browser</li>
+                <li>Paste the code as the URL</li>
+                <li>Name it "Canvas QR Generator"</li>
+            </ol>
+            
+            <p><strong>Bookmarklet Code:</strong></p>
+            <div class="copy-area" id="bookmarklet-code">
+                javascript:(function(){var s=document.createElement('script');s.src='https://yourusername.github.io/your-repo/canvas-qr-script.js?v='+Date.now();s.onload=function(){if(window.generateCanvasQR){window.generateCanvasQR()}else{alert('Script failed to load. Please try again.');}};document.head.appendChild(s);})();
+            </div>
+            <button onclick="copyBookmarkletCode()">📋 Copy Code</button>
+        </div>
+    </div>
+
+    <div class="step">
+        <h3>📋 Usage Instructions</h3>
+        <ol>
+            <li><strong>Navigate to your Canvas course People page</strong></li>
+            <li><strong>Make sure students are visible</strong> (scroll down if needed to load all students)</li>
+            <li><strong>Click the bookmarklet</strong> in your bookmarks bar</li>
+            <li><strong>Review the found students</strong> in the popup</li>
+            <li><strong>Click "Generate QR Codes PDF"</strong></li>
+            <li><strong>Download completes automatically</strong> - ready to print!</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>📄 PDF Output</h3>
+        <p>The generated PDF contains:</p>
+        <ul>
+            <li><strong>2 columns × 6 rows</strong> of QR codes per page</li>
+            <li><strong>Student name and ID</strong> below each QR code</li>
+            <li><strong>Multiple pages</strong> if you have many students</li>
+            <li><strong>Print-ready format</strong> for easy distribution</li>
+        </ul>
+    </div>
+
+    <div class="success">
+        <h4>🔒 Privacy Notes</h4>
+        <ul>
+            <li><strong>Everything runs locally</strong> in your browser</li>
+            <li><strong>No data is sent</strong> to external servers</li>
+            <li><strong>Student data never leaves</strong> your device</li>
+            <li><strong>Works offline</strong> after libraries are cached</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>🔧 Troubleshooting</h3>
+        <p><strong>No students found?</strong></p>
+        <ul>
+            <li>Make sure you're on the Canvas <code>People</code> page</li>
+            <li>Scroll down to load all students (Canvas lazy-loads)</li>
+            <li>Try refreshing the page and running again</li>
+        </ul>
+        
+        <p><strong>PDF not generating?</strong></p>
+        <ul>
+            <li>Check that pop-ups are allowed for Canvas</li>
+            <li>Ensure your browser allows file downloads</li>
+            <li>Try running on a desktop browser for best results</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>🎯 Next Steps</h3>
+        <p>After generating QR codes:</p>
+        <ol>
+            <li><strong>Print the PDF</strong> and cut out individual QR codes</li>
+            <li><strong>Distribute to students</strong> (email, hand out, etc.)</li>
+            <li><strong>Use with the attendance scanner</strong> during class</li>
+            <li><strong>Students scan their QR codes</strong> for instant attendance</li>
+        </ol>
+    </div>
+
+    <script>
+        function copyBookmarkletCode() {
+            const codeElement = document.getElementById('bookmarklet-code');
+            const text = codeElement.textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Bookmarklet code copied to clipboard!');
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Bookmarklet code copied to clipboard!');
+            }
+        }
+    </script>
+</body>
+</html>
