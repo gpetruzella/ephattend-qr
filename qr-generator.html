@@ -91,13 +91,13 @@
 <body>
     <div class="hero">
         <h1>🎓 Canvas QR Code Generator</h1>
-        <p>Generate QR codes for all your students directly from Canvas People page</p>
+        <p>Generate QR codes for all your students directly from Canvas (GLOW) People page</p>
         <p><strong>Completely Local • No Data Collection • Works Offline</strong></p>
     </div>
 
     <div class="step">
         <h3>📖 How It Works</h3>
-        <p>This bookmarklet runs JavaScript directly on your Canvas People page to:</p>
+        <p>This bookmarklet runs JavaScript directly on your Canvas (GLOW) People page to:</p>
         <ul>
             <li>Extract student names and IDs from the current page</li>
             <li>Generate QR codes for each student</li>
@@ -110,12 +110,8 @@
         <h3>🔧 Installation</h3>
         <p><strong>Drag this button to your bookmarks bar:</strong></p>
         
-        <a href="javascript:(function(){var s=document.createElement('script');s.src='https://yourusername.github.io/your-repo/canvas-qr-script.js?v='+Date.now();s.onload=function(){if(window.generateCanvasQR){window.generateCanvasQR()}else{alert('Script failed to load. Please try again.');}};document.head.appendChild(s);})();" class="bookmarklet">📋 Generate Canvas QR Codes</a>
+        <a href="javascript:(function(){var s=document.createElement('script');s.src='https://gpetruzella.github.io/ephattend-qr/canvas-qr-script.js?v='+Date.now();s.onload=function(){if(window.generateCanvasQR){window.generateCanvasQR()}else{alert('Script failed to load. Please try again.');}};document.head.appendChild(s);})();" class="bookmarklet">📋 Generate Canvas QR Codes</a>
         
-        <div class="warning">
-            <strong>⚠️ Update Required:</strong> Replace <code>yourusername.github.io/your-repo</code> in the button above with your actual GitHub Pages URL before using!
-        </div>
-
         <div class="manual-instructions">
             <h4>Manual Setup (if drag doesn't work):</h4>
             <ol>
@@ -127,7 +123,7 @@
             
             <p><strong>Bookmarklet Code:</strong></p>
             <div class="copy-area" id="bookmarklet-code">
-                javascript:(function(){var s=document.createElement('script');s.src='https://yourusername.github.io/your-repo/canvas-qr-script.js?v='+Date.now();s.onload=function(){if(window.generateCanvasQR){window.generateCanvasQR()}else{alert('Script failed to load. Please try again.');}};document.head.appendChild(s);})();
+                javascript:(function(){var s=document.createElement('script');s.src='https://gpetruzella.github.io/ephattend-qr/canvas-qr-script.js?v='+Date.now();s.onload=function(){if(window.generateCanvasQR){window.generateCanvasQR()}else{alert('Script failed to load. Please try again.');}};document.head.appendChild(s);})();
             </div>
             <button onclick="copyBookmarkletCode()">📋 Copy Code</button>
         </div>
@@ -136,7 +132,7 @@
     <div class="step">
         <h3>📋 Usage Instructions</h3>
         <ol>
-            <li><strong>Navigate to your Canvas course People page</strong></li>
+            <li><strong>Navigate to your Canvas (GLOW) course's People page</strong></li>
             <li><strong>Make sure students are visible</strong> (scroll down if needed to load all students)</li>
             <li><strong>Click the bookmarklet</strong> in your bookmarks bar</li>
             <li><strong>Review the found students</strong> in the popup</li>
@@ -189,7 +185,7 @@
         <ol>
             <li><strong>Print the PDF</strong> and cut out individual QR codes</li>
             <li><strong>Distribute to students</strong> (email, hand out, etc.)</li>
-            <li><strong>Use with the attendance scanner</strong> during class</li>
+            <li><strong>Use with the ephattend attendance scanner</strong> during class</li>
             <li><strong>Students scan their QR codes</strong> for instant attendance</li>
         </ol>
     </div>
