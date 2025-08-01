@@ -93,7 +93,8 @@ window.generateCanvasQR = function() {
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <div style="display:none; background:#f0f0f0; padding:20px; font-size:10px;">QR: ${student.displayText}</div>
                             <div class="student-name">${student.name}</div>
-                            <div class="student-id">ID: ${student.id}</div>
+                            <div class="student-id">ID: ${student.loginId || student.canvasId}</div>
+                            <div class="student-type" style="font-size: 10px; color: #999;">${student.loginId ? 'Login ID' : 'Canvas ID'}</div>
                         </div>
                     `).join('')}
                 </div>
@@ -137,98 +138,114 @@ window.generateCanvasQR = function() {
         document.body.appendChild(overlay);
     }
 
-    // Extract student data from Canvas
+    // Extract student data from Canvas with Login ID support
     function extractStudents() {
         const students = [];
         
-        // Enhanced selectors for different Canvas layouts
-        const selectors = [
-            // Modern Canvas People page
-            '[data-testid*="user"] a[href*="/users/"]',
-            'tr[data-testid*="user"] td a[href*="/users/"]',
-            '[data-automation-id*="user"] a[href*="/users/"]',
+        // Method 1: Try specific table structure with Login IDs
+        function tryTableWithLoginIds() {
+            const userRows = document.querySelectorAll('tr[id^="user_"]');
             
-            // Classic Canvas roster
-            '.roster_user_name a[href*="/users/"]',
-            '.student_roster .student .name a[href*="/users/"]',
-            '.user_name a[href*="/users/"]',
-            
-            // Table-based layouts
-            'table tr td a[href*="/users/"]',
-            '.roster td a[href*="/users/"]',
-            
-            // Generic fallbacks
-            'a[href*="/users/"][title]:not([href*="/conversations"])',
-            '.student a[href*="/users/"]'
-        ];
-        
-        console.log('Searching for students...');
-        
-        for (const selector of selectors) {
-            const elements = document.querySelectorAll(selector);
-            if (elements.length > 0) {
-                console.log(`Found ${elements.length} potential students using: ${selector}`);
+            if (userRows.length > 0) {
+                console.log(`Found ${userRows.length} user rows with Login ID structure`);
                 
-                elements.forEach(el => {
-                    const name = el.textContent.trim();
-                    const href = el.href;
-                    const idMatch = href.match(/users\/(\d+)/);
-                    const id = idMatch ? idMatch[1] : '';
+                userRows.forEach(row => {
+                    // Extract Canvas ID from row id="user_12345678"
+                    const idMatch = row.id.match(/^user_(\d+)$/);
+                    const canvasId = idMatch ? idMatch[1] : '';
                     
-                    // Enhanced filtering for student entries
-                    if (name && id && 
-                        name.length > 2 && 
-                        name.length < 100 && 
-                        !name.toLowerCase().includes('test user') &&
-                        !name.toLowerCase().includes('admin') &&
-                        !name.toLowerCase().includes('teacher') &&
-                        !name.toLowerCase().includes('instructor') &&
-                        !/^\d+$/.test(name) && // Not just numbers
-                        !students.find(s => s.id === id)) {
-                        
+                    // Extract name from link in the row
+                    const nameLink = row.querySelector('a[href*="/users/"]');
+                    const name = nameLink ? nameLink.textContent.trim() : '';
+                    
+                    // Extract Login ID from 3rd <td>
+                    const cells = row.querySelectorAll('td');
+                    const loginId = cells[2] ? cells[2].textContent.trim() : '';
+                    
+                    // Add student if we have required data
+                    if (name && canvasId) {
                         students.push({
                             name: name,
-                            id: id,
-                            displayText: `${name} (${id})`
+                            canvasId: canvasId,
+                            loginId: loginId || null,
+                            displayText: loginId ? 
+                                `${name} (${loginId})` : 
+                                `${name} (${canvasId})`,
+                            source: loginId ? 'Login ID' : 'Canvas ID (fallback)'
                         });
                     }
                 });
                 
-                if (students.length > 0) break; // Use first successful selector
+                return students.length > 0;
+            }
+            
+            return false;
+        }
+        
+        // Method 2: Fallback to original Canvas ID extraction
+        function fallbackToCanvasIds() {
+            console.log('Falling back to Canvas ID extraction from URLs');
+            
+            const selectors = [
+                '[data-testid*="user"] a[href*="/users/"]',
+                'tr[data-testid*="user"] td a[href*="/users/"]',
+                '.roster_user_name a[href*="/users/"]',
+                '.student_roster .student .name a[href*="/users/"]',
+                'a[href*="/users/"][href*="/courses/"]'
+            ];
+            
+            for (const selector of selectors) {
+                const elements = document.querySelectorAll(selector);
+                if (elements.length > 0) {
+                    console.log(`Found ${elements.length} students using selector: ${selector}`);
+                    
+                    elements.forEach(el => {
+                        const name = el.textContent.trim();
+                        const href = el.href;
+                        const idMatch = href.match(/users\/(\d+)/);
+                        const canvasId = idMatch ? idMatch[1] : '';
+                        
+                        if (name && canvasId && 
+                            name.length > 2 && 
+                            name.length < 100 && 
+                            !name.toLowerCase().includes('test user') &&
+                            !students.find(s => s.canvasId === canvasId)) {
+                            
+                            students.push({
+                                name: name,
+                                canvasId: canvasId,
+                                loginId: null,
+                                displayText: `${name} (${canvasId})`,
+                                source: 'Canvas ID (no Login ID structure found)'
+                            });
+                        }
+                    });
+                    break; // Use first successful selector
+                }
             }
         }
         
-        // Alternative: Look for student names in specific contexts
-        if (students.length === 0) {
-            console.log('Trying alternative extraction methods...');
-            
-            // Look for student section specifically
-            const studentSection = document.querySelector('[data-testid="people-roster"], .roster, .student_roster');
-            if (studentSection) {
-                const links = studentSection.querySelectorAll('a[href*="/users/"]');
-                links.forEach(el => {
-                    const name = el.textContent.trim();
-                    const href = el.href;
-                    const idMatch = href.match(/users\/(\d+)/);
-                    const id = idMatch ? idMatch[1] : '';
-                    
-                    if (name && id && name.length > 2 && !students.find(s => s.id === id)) {
-                        students.push({
-                            name: name,
-                            id: id,
-                            displayText: `${name} (${id})`
-                        });
-                    }
-                });
-            }
+        // Execute extraction strategy
+        const foundLoginIds = tryTableWithLoginIds();
+        
+        if (!foundLoginIds) {
+            fallbackToCanvasIds();
         }
         
         // Remove duplicates and sort
         const uniqueStudents = students
-            .filter((student, index, self) => index === self.findIndex(s => s.id === student.id))
+            .filter((student, index, self) => 
+                index === self.findIndex(s => s.canvasId === student.canvasId)
+            )
             .sort((a, b) => a.name.localeCompare(b.name));
         
-        console.log(`Extracted ${uniqueStudents.length} unique students`);
+        console.log(`Extracted ${uniqueStudents.length} students`);
+        console.log('Source breakdown:', {
+            'Login ID': uniqueStudents.filter(s => s.source === 'Login ID').length,
+            'Canvas ID fallback': uniqueStudents.filter(s => s.source.includes('fallback')).length,
+            'Canvas ID only': uniqueStudents.filter(s => s.source.includes('no Login ID')).length
+        });
+        
         return uniqueStudents;
     }
 
@@ -274,15 +291,32 @@ window.generateCanvasQR = function() {
     
     // Display found students
     const listEl = document.getElementById('student-list');
+    
+    // Show summary with extraction methods
+    const loginIdCount = students.filter(s => s.loginId).length;
+    const canvasIdCount = students.length - loginIdCount;
+    
     listEl.innerHTML = `
         <div style="text-align: center; margin-bottom: 15px;">
             <strong style="color: #28a745;">✅ Found ${students.length} students</strong>
+            <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                ${loginIdCount > 0 ? `${loginIdCount} with Login IDs` : ''}
+                ${loginIdCount > 0 && canvasIdCount > 0 ? ' • ' : ''}
+                ${canvasIdCount > 0 ? `${canvasIdCount} with Canvas IDs` : ''}
+            </div>
         </div>
         <div style="max-height: 200px; overflow-y: auto;">
             ${students.map(s => `
                 <div style='padding: 8px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;'>
                     <span style="flex: 1;">${s.name}</span>
-                    <small style="color: #666; font-family: monospace;">ID: ${s.id}</small>
+                    <div style="text-align: right;">
+                        <div style="font-family: monospace; font-size: 11px;">
+                            ${s.loginId ? s.loginId : s.canvasId}
+                        </div>
+                        <div style="font-size: 10px; color: #888;">
+                            ${s.loginId ? 'Login ID' : 'Canvas ID'}
+                        </div>
+                    </div>
                 </div>
             `).join('')}
         </div>
@@ -313,4 +347,8 @@ window.generateCanvasQR = function() {
     };
     
     console.log(`Canvas QR Generator: Ready with ${students.length} students`);
+    console.log('ID types:', {
+        'Login IDs': students.filter(s => s.loginId).length,
+        'Canvas IDs': students.filter(s => !s.loginId).length
+    });
 };
