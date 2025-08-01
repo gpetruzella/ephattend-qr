@@ -1,6 +1,6 @@
 # Canvas QR Code Generator
 
-A minimalist bookmarklet that extracts student data directly from Canvas People pages and generates print-ready QR codes. Great for creating student QR codes for attendance tracking, lab access, or any application requiring unique student identification. Perfect companion to **ephattend**, the local, privacy-respecting PWA.
+A minimalist bookmarklet that extracts student data directly from Canvas People pages and generates print-ready QR codes. Great for creating student QR codes for attendance tracking, lab access, or any application requiring unique student identification. Perfect companion to **EphAttend**, the local, privacy-respecting PWA.
 
 ## ✨ Features
 
@@ -95,7 +95,7 @@ Tested and working with:
 
 ### Step-by-Step Process
 1. **Access Canvas**: Navigate to your course's People page
-2. **Load students**: Scroll down to ensure all students are loaded (Canvas lazy-loads)
+2. **Load students**: Scroll down to ensure **all** students are visibly loaded (Canvas lazy-loads)
 3. **Run bookmarklet**: Click the bookmarklet in your bookmarks bar
 4. **Verify extraction**: Review the list of found students
 5. **Generate QR codes**: Click "Generate & Print" button
