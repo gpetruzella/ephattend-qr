@@ -7,7 +7,7 @@ A minimalist bookmarklet that extracts student data directly from Canvas People 
 - **Canvas Integration**: Extract students directly from any Canvas course People page
 - **One-Click Operation**: Single bookmarklet click to find and process all students
 - **Print-Ready Output**: Clean 2×6 grid layout optimized for printing and distribution
-- **Privacy-First**: All processing happens locally in your browser - no data collection
+- **Privacy-First**: Only QR image generation uses external service - no data collection
 - **Zero Setup**: No accounts, installations, or configurations required
 - **Cross-Platform**: Works on any desktop browser with Canvas access
 - **Bypass CORB**: Self-contained script that works with Canvas security restrictions
@@ -15,15 +15,14 @@ A minimalist bookmarklet that extracts student data directly from Canvas People 
 ## 🎯 Why This Tool?
 
 Canvas doesn't provide an easy way to generate QR codes for students. This bookmarklet solves that by:
-- **Automatically extracting** all student names and IDs from Canvas
+- **Automatically extracting** student names and IDs from Canvas
 - **Generating QR codes** containing student information  
 - **Creating print-ready PDFs** for easy distribution
 - **Working with any Canvas course** regardless of size
 
 Perfect for instructors who need to:
-- Distribute QR codes for attendance scanning
-- Create student identification cards
-- Set up lab access systems
+- Distribute QR codes for attendance tracking
+- Create student QR-based IDs for their course
 - Enable contactless check-in processes
 
 ## 🚀 Quick Start
@@ -235,9 +234,8 @@ For questions or issues:
 ## 🔒 Privacy & Security
 
 - **Local processing**: All student data processing happens in your browser
-- **No data collection**: This tool collects no analytics or personal information
+- **No data collection**: This tool collects no analytics or personal information. "The contents of QR codes created via api.qrserver.com are not saved. The QR code graphic file generated during a request is deleted from the internal cache approximately five (5) minutes after generation and delivery and is not archived." https://goqr.me/de/rechtliches/datenschutz-api.html
 - **Minimal external calls**: Only QR image generation uses external service
-- **FERPA compliant**: No student data leaves your device during processing
 - **Institutional friendly**: Compatible with Canvas security policies
 
 ---
