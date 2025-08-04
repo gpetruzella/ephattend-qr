@@ -1,5 +1,5 @@
 /* Canvas QR Generator Script - CORB-Resistant Version */
-/* This script runs entirely self-contained to bypass Canvas security restrictions */
+/* This script runs entirely self-contained to work within Canvas security restrictions */
 
 window.generateCanvasQR = function() {
     // Prevent multiple instances
