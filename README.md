@@ -27,28 +27,15 @@ Perfect for instructors who need to:
 
 ## 🚀 Quick Start
 
-### 1. Deploy the Bookmarklet Page
-**Option A: GitHub Pages**
-1. Fork this repository
-2. Enable GitHub Pages in repository Settings
-3. Visit your GitHub Pages URL
-
-**Option B: Local Development**
-```bash
-git clone [your-repo-url]
-cd canvas-qr-generator
-python -m http.server 8000
-# Visit http://localhost:8000
-```
+### 1. Visit the Bookmarklet Page
+1. Visit `gpetruzella.github.io/ephattend-qr` (or click `EphattendQR` in your GLOW Course Navigation Menu)
 
 ### 2. Install the Bookmarklet
-1. **Visit your deployed page**
-2. **Drag the blue "Generate Canvas QR Codes" button** to your browser's bookmarks bar
-3. **Update the URL** in the bookmarklet to match your GitHub Pages URL
+1. **Drag the blue "Generate Canvas QR Codes" button** to your browser's bookmarks bar
 
 ### 3. Generate QR Codes
 1. **Navigate to any Canvas course People page**
-2. **Ensure students are visible** (scroll to load all students)
+2. **Ensure students are visible** (scroll to load all students, for large classes)
 3. **Click the bookmarklet** in your bookmarks bar
 4. **Review found students** in the popup
 5. **Click "Generate & Print"** to create QR codes
@@ -75,15 +62,13 @@ python -m http.server 8000
 ### Canvas Compatibility
 Tested and working with:
 - **Modern Canvas interface** (2023+)
-- **Classic Canvas interface** 
 - **Various institutional Canvas customizations**
-- **Different Canvas course layouts**
 
 ### Security Approach
 - **CORB-resistant**: Self-contained script bypasses Cross-Origin restrictions
 - **Local processing**: All data processing happens in your browser
-- **No external dependencies**: Minimal external API usage (QR image generation only)
-- **Privacy-first**: Student data never leaves your device
+- **Minimal external dependencies**: Privacy-forward external API usage (QR image generated from directory information only; not cached remotely)
+- **Privacy-first**: Student attendance data never leaves your device
 
 ## 📋 Usage Instructions
 
@@ -106,28 +91,6 @@ Tested and working with:
 - **Format**: Student name and ID printed below each QR code
 - **Multi-page**: Automatically flows to additional pages for large courses
 - **Print-ready**: Optimized margins and sizing for standard paper
-
-## 🧪 Testing
-
-### Installation Testing
-- [ ] Bookmarklet appears as button on webpage (not code text)
-- [ ] Bookmarklet can be dragged to bookmarks bar
-- [ ] Manual bookmark creation works as alternative
-- [ ] GitHub Pages URL correctly updated in bookmarklet
-
-### Canvas Integration Testing  
-- [ ] Works on Canvas People page
-- [ ] Detects students in various Canvas layouts
-- [ ] Handles courses with 10-500+ students
-- [ ] Extracts correct student names and IDs
-- [ ] Filters out non-student entries (TAs, instructors)
-
-### QR Generation Testing
-- [ ] QR codes generate successfully
-- [ ] Print window opens automatically
-- [ ] PDF layout is clean and properly formatted  
-- [ ] QR codes contain correct student information
-- [ ] QR codes are scannable by standard QR readers
 
 ## 🔧 Troubleshooting
 
@@ -186,21 +149,17 @@ Student Name (Canvas_User_ID)
 Example: "John Doe (12345678)"
 ```
 
-This format is compatible with most attendance and check-in applications.
-
 ## 🎓 Use Cases
 
 ### Educational Institutions
 - **Large lecture attendance**: Generate codes once, use all semester
 - **Lab access management**: Create student identification cards
-- **Event registration**: Quick student check-in for activities
 - **Exam proctoring**: Verify student identity efficiently
 
 ### Process Optimization
 - **Semester setup**: Generate QR codes during first week of classes
-- **Substitute teaching**: Provide easy attendance method for substitutes  
+- **Substitute instructors**: Provide easy attendance method for substitutes  
 - **Multi-section courses**: Generate codes for all course sections
-- **Cross-registration**: Handle students from multiple departments
 
 ## 🤝 Contributing
 
@@ -234,7 +193,7 @@ For questions or issues:
 ## 🔒 Privacy & Security
 
 - **Local processing**: All student data processing happens in your browser
-- **No data collection**: This tool collects no analytics or personal information. "The contents of QR codes created via api.qrserver.com are not saved. The QR code graphic file generated during a request is deleted from the internal cache approximately five (5) minutes after generation and delivery and is not archived." https://goqr.me/de/rechtliches/datenschutz-api.html
+- **No data collection**: This tool collects no analytics or personal information. "The contents of QR codes created via api.qrserver.com are not saved. The QR code graphic file generated during a request is deleted from the internal cache approximately five (5) minutes after generation and delivery and is not archived." source: `https://goqr.me/de/rechtliches/datenschutz-api.html`
 - **Minimal external calls**: Only QR image generation uses external service
 - **Institutional friendly**: Compatible with Canvas security policies
 
